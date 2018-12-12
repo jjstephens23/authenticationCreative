@@ -2,7 +2,7 @@
 <html ng-app="myApp">
     
 <head>
-    <title>Edit User</title>
+    <title>Edit Pictures</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" 
           integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
@@ -11,17 +11,13 @@
         
 <body>  
     <div class="form-container left-div" ng-controller="myController">
-        <h2 id="sectionTitle" class="form-header">Edit Profile</h2>
-        <form method="POST" action="/user/update">
-            <label>Username:</label>
-            <input type="text" id="username" name="username" ng-model="user.username" disabled><br>
-            <label>Email:</label>
-            <input type="email" id="email" name="email" ng-model="user.email"><br>        
-            <input type="submit" id="save" value="Save">
+        <h2 id="sectionTitle" class="form-header">Edit Pictures</h2>
+        <form method="POST" action="/user/pictures">
+            <label>Picture URL:</label>
+            <input type="text" id="pictureURL" name="pictureURL" ng-model="user.pictureURL"><br>
+            <input type="submit" id="save" value="Upload">
         </form>
-        <form method="POST" action="/user/delete">
-        <input type="submit" id="delete" value="Delete User">
-        </form>
+        <hr>
     </div>
     <script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
     <script src="/javascripts/my_app.js"></script>

@@ -11,26 +11,20 @@
         
 <body>  
     <div class="left-div" ng-controller="myController">
-        <h2 id="welcomeText">Welcome. You are Logged In as
-            <%= username %>
-        </h2>
+        <h2 id="welcomeText">Welcome <%= username %>!</h2>
         <a id="logoutLink" href="/logout">logout</a>
         <a id="editLink" href="/user">Edit User</a>
-        <p>Place Your Code Here
-            <p>
+        <a id="pictureLink" href="/picture">Edit Pictures</a>
         <hr>
-        <span id="indexMsg">
-            <%= msg %>
-        </span>
-        <hr>
-        <span id="colorText">
-        Color
-            <%= color %>
-          </span>
+    </div>
+    <div class="left-div" ng-controller="myController">
+        <ul>
+            <% for(var i=0; i < pictures.length; i++) { %>
+                <img src=<%= pictures[i] %> alt="pic">
+            <% } %>
+        </ul>
     </div>
     
     <script src="http://code.angularjs.org/1.2.9/angular.min.js"></script>
     <script src="/javascripts/my_app.js"></script>
 </body>
-      
-</html>

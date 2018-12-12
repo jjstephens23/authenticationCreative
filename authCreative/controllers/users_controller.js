@@ -6,26 +6,33 @@ function hashPW(pwd){
          digest('base64').toString();
 }
 exports.signup = function(req, res){
-  console.log("Begin exports.signup");
-  var user = new User({username:req.body.username});
-  console.log("after new user exports.signup");
-  user.set('hashed_password', hashPW(req.body.password));
-  console.log("after hashing user exports.signup");
-  user.set('email', req.body.email);
-  console.log("after email user exports.signup");
-  user.save(function(err) {
-    console.log("In exports.signup");
-    console.log(err);
-    if (err){
-      res.session.error = err;
+  User.findOne({ username: req.body.username })
+  .exec(function(err, user) {
+    if(user) {
+      console.log("HERE");
+      req.session.msg = "Username is already taken";
       res.redirect('/signup');
-    } else {
-      req.session.user = user.id;
-      req.session.username = user.username;
-      req.session.msg = 'Authenticated as ' + user.username;
-      res.redirect('/');
+    }
+    else {
+      var newUser = new User({username:req.body.username});
+      newUser.set('hashed_password', hashPW(req.body.password));
+      newUser.set('email', req.body.email);
+      newUser.set('pictures', []);
+      newUser.save(function(err) {
+        if (err){
+          res.session.error = err;
+          res.redirect('/signup');
+        } else {
+          req.session.user = newUser.id;
+          req.session.username = newUser.username;
+          req.session.msg = 'Authenticated as ' + newUser.username;
+          req.session.pictures = newUser.pictures;
+          res.redirect('/');
+        }
+      });
     }
   });
+  
 };
 exports.login = function(req, res){
   User.findOne({ username: req.body.username })
@@ -35,12 +42,10 @@ exports.login = function(req, res){
     } else if (user.hashed_password ===
                hashPW(req.body.password.toString())) {
       req.session.regenerate(function(){
-        console.log("login");
-        console.log(user);
         req.session.user = user.id;
         req.session.username = user.username;
         req.session.msg = 'Authenticated as ' + user.username;
-        req.session.color = user.color;
+        req.session.pictures = user.pictures;
         res.redirect('/');
       });
     }else{
@@ -68,13 +73,11 @@ exports.updateUser = function(req, res){
   User.findOne({ _id: req.session.user })
   .exec(function(err, user) {
     user.set('email', req.body.email);
-    user.set('color', req.body.color);
     user.save(function(err) {
       if (err){
         res.sessor.error = err;
       } else {
         req.session.msg = 'User Updated.';
-        req.session.color = req.body.color;
       }
       res.redirect('/user');
     });
@@ -98,5 +101,20 @@ exports.deleteUser = function(req, res){
         res.redirect('/login');
       });
     }
+  });
+};
+exports.addPicture = function(req, res) {
+  User.findOne({_id: req.session.user})
+  .exec(function(err, user) {
+    user.pictures.addToSet(req.body.pictureURL);
+    user.save(function(err) {
+      if (err){
+        res.sessor.error = err;
+      } else {
+        req.session.msg = 'Picture was added.';
+        req.session.pictures = user.pictures;
+      }
+      res.redirect('/picture');
+    });
   });
 };
