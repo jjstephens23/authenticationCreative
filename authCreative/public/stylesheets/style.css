@@ -1,0 +1,51 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  text-align: center;
+  
+  background: url("https://png.pngtree.com/thumb_back/fw800/back_pic/00/05/14/345625f10f9f8f4.jpg");
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.left-div {
+  display: inline-block;
+  text-align: left;
+}
+
+h1, h2, span, label, ul, p {
+  color: white;
+}
+
+a {
+  color: #00B7FF;
+}
+
+input[type=submit] {
+  border: none;
+  border-radius: 12px;
+  color: white;
+  padding: 10px 15px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 14px;
+}
+
+#login {
+  background-color: dodgerblue;
+}
+
+#register {
+  background-color: mediumpurple;
+}
+
+#save {
+  background-color: lightgreen
+}
+
+#delete {
+  background-color: magenta;
+}
